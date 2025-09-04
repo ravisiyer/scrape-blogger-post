@@ -20,6 +20,8 @@ This tool is intended for personal use and for scraping content from your own bl
 
 * **Character Encoding:** Correctly handles UTF-8 characters, preventing corruption when saving to a file.
 
+* **HTML5 Conversion:** The script uses Cheerio to parse the HTML content and then extract the relevant parts. As part of this process, some self-closing tags (like \<br />) may be converted to their HTML5 equivalents (like \<br>). This is a standard normalization practice and should not affect the visual rendering of the content in a web browser.
+
 #### Prerequisites
 
 * **Node.js**: Make sure you have Node.js installed on your system.
