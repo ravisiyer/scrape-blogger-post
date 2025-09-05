@@ -68,7 +68,7 @@ This mode is designed for backing up a single post. It retrieves the post title 
 
 ---
 
-**Building a Minified and Bundled Version**
+#### Building a Minified and Bundled Version
 
 For a smaller file size and faster startup, you can create a minified and bundled version of the scraper. This process combines all dependencies into a single file in the `dist` folder.
 
@@ -79,7 +79,7 @@ This will generate an optimized `scrapeBlogPost.js` file in the `dist` directory
 
 ---
 
-**Using a Command to Run the Bundled Version**
+#### Using a Command to Run the Bundled Version
 
 Once the bundled version is created, on Windows OS, you can create a simple Powershell command to run the scraper from any location on your system.
 
