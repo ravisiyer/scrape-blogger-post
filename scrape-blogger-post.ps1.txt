@@ -1,0 +1,16 @@
+# Below is example PS script code. 
+# $distPath should be set to point to minified and bundled scrapeBlogPost.js
+# This script file should be moved to suitable cmds directory which is in PATH env variable and .txt part of name should be removed.
+# Then the script can be invoked from anywhere in file system to run (bundled) scrapeBlogPost.js file with node
+# and save output files relative to current directory.
+
+$distPath = "C:\Users\.....\ScrapeBlogPost\dist\scrapeBlogPost.js"
+
+# Check if the bundled file exists.
+if ($null -ne (Test-Path $distPath)) {
+    # Forward all command-line arguments to the Node.js script.
+    node $distPath $args
+} else {
+    Write-Host "Error: The bundled scrapeBlogPost.js file was not found."
+    Write-Host "Please ensure the project is built and located at the correct path relative to this script."
+}

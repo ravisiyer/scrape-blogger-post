@@ -43,13 +43,13 @@ This mode extracts only the HTML content within the main blog post body and prin
 * **To print to console:**
 
     ```
-    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/09/example-post.html
+    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html
     ```
 
 * **To save to a file:**
 
     ```
-    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/09/example-post.html output.html
+    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html output.html
     ```
     *Note: The script will abort if output.html already exists to prevent overwriting.*
 
@@ -60,11 +60,41 @@ This mode is designed for backing up a single post. It retrieves the post title 
 * **To create a backup:**
 
     ```
-    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/09/example-post.html --backup
+    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html --backup
     ```
     The script will automatically generate a filename like example-post.html and save the complete HTML document to that file.
 
     *Note: The script will abort if the generated filename already exists to prevent overwriting.*
+
+---
+
+**Building a Minified and Bundled Version**
+
+For a smaller file size and faster startup, you can create a minified and bundled version of the scraper. This process combines all dependencies into a single file in the `dist` folder.
+
+To create the build, ensure `esbuild` is installed as a dev dependency, then run the following command:
+
+    npm run build
+This will generate an optimized `scrapeBlogPost.js` file in the `dist` directory.
+
+---
+
+**Using a Command to Run the Bundled Version**
+
+Once the bundled version is created, on Windows OS, you can create a simple Powershell command to run the scraper from any location on your system.
+
+1. Edit the file scrape-blogger-post.ps1.txt and update the distPath variable to point to the location of your bundled `scrapeBlogPost.js` file.
+1. Rename the file to scrape-blogger-post.ps1 (remove the .txt extension).
+1. Optionally, move the file to a directory of your choice (e.g., C:\Users\user-abc\Scripts).
+1. If needed, add the directory containing scrape-blogger-post.ps1 to your PATH environment variable.
+1. You can now run the command from any directory in your file system:
+
+    ```
+    scrape-blogger-post.ps1 https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html --backup
+    ```
+1. The script will create any output file requested in the current working directory.
+
+For other operating systems, you can create a similar shell script to achieve the same functionality.
 
 ---
 
@@ -76,10 +106,10 @@ The script seems to work with Blogger pages as well, but it has only been tested
 
 #### Author
 
-This extension was developed by Ravi S. Iyer with assistance from Gemini.
+This script was developed by Ravi S. Iyer with assistance from Gemini.
 
 ---
 
 #### License
 
-This extension is licensed under the MIT License. The full text of the license can be found in the LICENSE file in the project's repository.
+This script is licensed under the MIT License. The full text of the license can be found in the LICENSE file in the project's repository.
