@@ -66,8 +66,6 @@ This mode is designed for backing up a single post. It retrieves the post title 
 
     *Note: The script will abort if the generated filename already exists to prevent overwriting.*
 
----
-
 #### Building a Minified and Bundled Version
 
 For a smaller file size and faster startup, you can create a minified and bundled version of the scraper. This process combines all dependencies into a single file in the `dist` folder.
@@ -76,8 +74,6 @@ To create the build, ensure `esbuild` is installed as a dev dependency, then run
 
     npm run build
 This will generate an optimized `scrapeBlogPost.js` file in the `dist` directory.
-
----
 
 #### Using a Command to Run the Bundled Version
 
@@ -96,19 +92,13 @@ Once the bundled version is created, on Windows OS, you can create a simple Powe
 
 For other operating systems, you can create a similar shell script to achieve the same functionality.
 
----
-
 #### Blogger Pages Support
 
 The script seems to work with Blogger pages as well, but it has only been tested with one small blog page.
 
----
-
 #### Author
 
 This script was developed by Ravi S. Iyer with assistance from Gemini.
-
----
 
 #### License
 
