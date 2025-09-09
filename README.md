@@ -16,11 +16,11 @@ This tool is intended for personal use and for scraping content from your own bl
 
 * **Full HTML Backup:** Creates a complete, self-contained HTML document with a clean filename based on the post's title.
 
-* **Safe and Efficient:** Includes a pre-fetch file existence check to prevent accidental overwrites and unnecessary network requests.
+* **Safe:** Includes a pre-write file existence check to prevent accidental overwrites.
 
 * **Character Encoding:** Correctly handles UTF-8 characters, preventing corruption when saving to a file.
 
-* **HTML5 Conversion:** The script uses Cheerio to parse the HTML content and then extract the relevant parts. As part of this process, some self-closing tags (like \<br />) may be converted to their HTML5 equivalents (like \<br>). This is a standard normalization practice and should not affect the visual rendering of the content in a web browser.
+* **HTML5 Conversion:** The script uses Cheerio to parse the HTML content and then extract the relevant parts. As part of this process, some self-closing tags (like `<br />`) may be converted to their HTML5 equivalents (like `<br>`). This is a standard normalization practice and should not affect the visual rendering of the content in a web browser.
 
 #### Prerequisites
 
@@ -34,37 +34,51 @@ This tool is intended for personal use and for scraping content from your own bl
 
 #### Usage
 
-The script takes one required argument (the URL) and an optional second argument (either an output filename or a backup flag).
+The script takes one required argument (`url`) and a set of options (`--format`, `--output`).
 
-**1. Scrape Post HTML (Default)**
+* **url** (positional): The URL of the blog post to scrape.
+
+* **--format** or **-f** (optional): Specifies the output format for the content.
+    * `pure`: Extracts only the post's HTML content.
+    * `full`: Wraps the post content in a complete HTML document with basic styling. This is the default format.
+
+* **--output** or **-o** (optional): Specifies the output file name. If this option is not used, the content is printed to the console.
+
+**1. Scrape Pure Post HTML**
 
 This mode extracts only the HTML content within the main blog post body and prints it to the console or saves it to a specified file.
 
 * **To print to console:**
 
     ```
-    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html
+    node scrapeBlogPost.js [https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html](https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html) --format pure
     ```
 
 * **To save to a file:**
 
     ```
-    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html output.html
+    node scrapeBlogPost.js [https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html](https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html) --format pure --output my-output.html
     ```
-    *Note: The script will abort if output.html already exists to prevent overwriting.*
+    *Note: The script will abort if `my-output.html` already exists to prevent overwriting.*
 
 **2. Create a Full HTML Backup**
 
-This mode is designed for backing up a single post. It retrieves the post title and content, then wraps them in a complete HTML document (`<html>`, `<head>`, `<body>` tags) and saves the file with a clean name based on the post title.
+This mode is designed for backing up a single post. It retrieves the post title and content, then wraps them in a complete HTML document (`<html>`, `<head>`, `<body>` tags). This is the default format.
 
-* **To create a backup:**
+* **To create a backup with an automatically generated filename:**
 
     ```
-    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html --backup
+    node scrapeBlogPost.js [https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html](https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html) --format full
     ```
-    The script will automatically generate a filename like example-post.html and save the complete HTML document to that file.
+    The script will automatically generate a filename from the post title (e.g., `notes-on-webview-chatgpt.html`). The filename is limited to the first **34 characters** of the formatted title to match Blogger's URL conventions.
 
-    *Note: The script will abort if the generated filename already exists to prevent overwriting.*
+* **To create a backup with a custom filename:**
+
+    ```
+    node scrapeBlogPost.js [https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html](https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html) --format full --output my-backup.html
+    ```
+
+*Note: The script will abort if the generated or specified filename already exists to prevent overwriting.*
 
 #### Building a Minified and Bundled Version
 
@@ -79,16 +93,16 @@ This will generate an optimized `scrapeBlogPost.js` file in the `dist` directory
 
 Once the bundled version is created, on Windows OS, you can create a simple Powershell command to run the scraper from any location on your system.
 
-1. Edit the file scrape-blogger-post.ps1.txt and update the distPath variable to point to the location of your bundled `scrapeBlogPost.js` file.
-1. Rename the file to scrape-blogger-post.ps1 (remove the .txt extension).
-1. Optionally, move the file to a directory of your choice (e.g., C:\Users\user-abc\Scripts).
-1. If needed, add the directory containing scrape-blogger-post.ps1 to your PATH environment variable.
-1. You can now run the command from any directory in your file system:
+1.  Edit the file `scrape-blogger-post.ps1.txt` and update the `distPath` variable to point to the location of your bundled `scrapeBlogPost.js` file.
+2.  Rename the file to `scrape-blogger-post.ps1` (remove the `.txt` extension).
+3.  Optionally, move the file to a directory of your choice (e.g., `C:\Users\user-abc\Scripts`).
+4.  If needed, add the directory containing `scrape-blogger-post.ps1` to your PATH environment variable.
+5.  You can now run the command from any directory in your file system:
 
     ```
-    scrape-blogger-post.ps1 https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html --backup
+    scrape-blogger-post.ps1 [https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html](https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html) --output my-backup.html
     ```
-1. The script will create any output file requested in the current working directory.
+6.  The script will create any output file requested in the current working directory.
 
 For other operating systems, you can create a similar shell script to achieve the same functionality.
 
