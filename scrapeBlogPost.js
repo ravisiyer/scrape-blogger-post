@@ -87,7 +87,7 @@ async function main() {
 </body>
 </html>`;
                 // If no output filename is provided, create one from the post title.
-                finalOutputFilename = argv.output || postTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') + '.html';
+                finalOutputFilename = argv.output || postTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').substring(0, 34) + '.html';
             } else { // 'pure' format
                 fileContent = purePostHtml;
                 finalOutputFilename = argv.output;
