@@ -1,43 +1,47 @@
-// This script uses Node.js, axios, and cheerio to scrape a Blogger post.
+// This script uses Node.js, axios, cheerio, and yargs to scrape a Blogger post.
 
 // Make sure you have the required dependencies installed:
-// npm install axios cheerio
+// npm install axios cheerio yargs
 
 const axios = require('axios');
 const cheerio = require('cheerio');
-const fs = require('fs/promises'); // Import the file system module for direct file writing
+const fs = require('fs/promises');
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
 
-// Define variables to store command-line arguments.
-const blogPostUrl = process.argv[2];
-const thirdArgument = process.argv[3]; // Can be an output filename or the backup flag
+// Define the command-line arguments using a command block.
+const argv = yargs(hideBin(process.argv))
+    .command('$0 <url>', 'Scrape a Blogger post.', (yargs) => {
+        // Positional arguments are configured here, inside the command builder.
+        yargs.positional('url', {
+            describe: 'The URL of the blog post to scrape.',
+            type: 'string',
+            demandOption: true // This is the correct way to make a positional argument required.
+        });
+    })
+    // Options are also defined here.
+    .option('format', {
+        alias: 'f',
+        describe: 'The output format for the content.',
+        choices: ['pure', 'full'],
+        default: 'full'
+    })
+    .option('output', {
+        alias: 'o',
+        describe: 'The output file name. If not specified, content is printed to the console.',
+        type: 'string'
+    })
+    .help('h')
+    .alias('h', 'help')
+    .parse(); // Explicitly call parse()
 
 // Main function to run the scraping logic
 async function main() {
-    if (!blogPostUrl) {
-        console.error('Please provide a URL as a command-line argument.');
-        console.error('Usage: node scrapeBlogPost.js <url> [output-file] or node scrapeBlogPost.js <url> --backup');
-        process.exit(1);
-    }
-
-    const isBackupMode = thirdArgument === '--backup';
-    const outputFilenameFromArg = isBackupMode ? null : thirdArgument;
-
-    // Check for output file existence at the very beginning for the explicit filename case.
-    if (outputFilenameFromArg) {
-        try {
-            await fs.access(outputFilenameFromArg);
-            console.error(`Error: The file "${outputFilenameFromArg}" already exists. Aborting to prevent overwrite.`);
-            process.exit(1);
-        } catch (error) {
-            // File does not exist, so we can proceed with the fetch.
-        }
-    }
-
     // Function to scrape the blog post content.
     async function scrapeBlogPost() {
         try {
             // Step 1: Make an HTTP request to the provided URL.
-            const response = await axios.get(blogPostUrl);
+            const response = await axios.get(argv.url);
             const html = response.data;
 
             // Step 2: Load the HTML into Cheerio for parsing and manipulation.
@@ -51,22 +55,18 @@ async function main() {
 
             if (postContentElement.length === 0) {
                 console.error('Could not find the main post content element. Please check your HTML selector.');
-                console.error('Look for a unique class or ID for the main post content, for example, ".post-body" or "#main-content".');
                 process.exit(1);
             }
 
             // Step 4: Extract the HTML content of the identified element.
             const purePostHtml = postContentElement.html();
 
-            let finalOutputFilename;
             let fileContent;
+            let finalOutputFilename;
 
-            // Handle the case for backup mode.
-            if (isBackupMode) {
-                // Sanitize the title to create a safe filename.
-                finalOutputFilename = postTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') + '.html';
-                
-                // Construct the full HTML document.
+            // Determine the output content and filename based on the specified format and output options.
+            if (argv.format === 'full') {
+                // Construct the full HTML document for 'full' format.
                 fileContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,15 +86,16 @@ async function main() {
     </div>
 </body>
 </html>`;
-            } else {
-                // Default mode: use the filename provided by the user.
-                finalOutputFilename = outputFilenameFromArg;
+                // If no output filename is provided, create one from the post title.
+                finalOutputFilename = argv.output || postTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') + '.html';
+            } else { // 'pure' format
                 fileContent = purePostHtml;
+                finalOutputFilename = argv.output;
             }
 
-            // Perform the final safety check just before writing to the file.
-            // This is crucial for backup mode and prevents race conditions.
+            // Decide whether to print to console or write to a file.
             if (finalOutputFilename) {
+                // Check if file already exists to prevent overwrite.
                 try {
                     await fs.access(finalOutputFilename);
                     console.error(`Error: The file "${finalOutputFilename}" already exists. Aborting to prevent overwrite.`);
@@ -106,8 +107,7 @@ async function main() {
                 await fs.writeFile(finalOutputFilename, fileContent, 'utf8');
                 console.log(`Successfully saved blog post content to ${finalOutputFilename}`);
             } else {
-                // Print to console if no output filename was provided.
-                console.log(purePostHtml);
+                console.log(fileContent);
             }
 
         } catch (error) {
