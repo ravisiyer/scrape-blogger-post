@@ -51,13 +51,13 @@ This mode extracts only the HTML content within the main blog post body and prin
 * **To print to console:**
 
     ```
-    node scrapeBlogPost.js [https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html](https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html) --format pure
+    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html --format pure
     ```
 
 * **To save to a file:**
 
     ```
-    node scrapeBlogPost.js [https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html](https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html) --format pure --output my-output.html
+    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html --format pure --output my-output.html
     ```
     *Note: The script will abort if `my-output.html` already exists to prevent overwriting.*
 
@@ -68,14 +68,14 @@ This mode is designed for backing up a single post. It retrieves the post title 
 * **To create a backup with an automatically generated filename:**
 
     ```
-    node scrapeBlogPost.js [https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html](https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html) --format full
+    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html --format full
     ```
     The script will automatically generate a filename from the post title (e.g., `notes-on-webview-chatgpt.html`). The filename is limited to the first **34 characters** of the formatted title to match Blogger's URL conventions.
 
 * **To create a backup with a custom filename:**
 
     ```
-    node scrapeBlogPost.js [https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html](https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html) --format full --output my-backup.html
+    node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html --format full --output my-backup.html
     ```
 
 *Note: The script will abort if the generated or specified filename already exists to prevent overwriting.*
@@ -100,7 +100,7 @@ Once the bundled version is created, on Windows OS, you can create a simple Powe
 5.  You can now run the command from any directory in your file system:
 
     ```
-    scrape-blogger-post.ps1 [https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html](https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html) --output my-backup.html
+    scrape-blogger-post.ps1 https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html --output my-backup.html
     ```
 6.  The script will create any output file requested in the current working directory.
 
