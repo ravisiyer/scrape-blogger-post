@@ -70,7 +70,7 @@ This mode is designed for backing up a single post. It retrieves the post title 
     ```
     node scrapeBlogPost.js https://raviswdev.blogspot.com/2025/08/notes-on-webview-chatgpt.html --format full
     ```
-    The script will automatically generate a filename from the post title (e.g., `notes-on-webview-chatgpt.html`). The filename is limited to the first **34 characters** of the formatted title to match Blogger's URL conventions.
+    The script will automatically generate a filename from the post title (e.g., `notes-on-webview-chatgpt.html`). The filename is limited to the first **34 characters** of the formatted title to roughly match Blogger's URL conventions.
 
 * **To create a backup with a custom filename:**
 
@@ -80,14 +80,20 @@ This mode is designed for backing up a single post. It retrieves the post title 
 
 *Note: The script will abort if the generated or specified filename already exists to prevent overwriting.*
 
-#### Building a Minified and Bundled Version
+#### Challenges Faced In Building a Single-File Version
 
-For a smaller file size and faster startup, you can create a minified and bundled version of the scraper. This process combines all dependencies into a single file in the `dist` folder.
+The addition of the `yargs` package (suggested by Gemini), while simplifying command-line argument handling, introduced a challenge in creating a single, bundled `.js` file for distribution. The `esbuild` tool succeeded in creating the single .js file but I encountered runtime errors when trying to run the single .js file.
+
+I explored various `esbuild` configurations and attempted a solution using Webpack based on instructions from both Gemini and ChatGPT, but was unable to create a truly self-contained file.
+
+The current `build.js` script successfully resolves this issue by externalizing `yargs` from the bundle. While the `esbuild` build succeeds and the resulting `dist/scrapeBlogPost.js` file runs correctly, it means the user must first run `npm install` for the project. The Node.js runtime then locates the `yargs` package in the `node_modules` directory one level up from the `dist` folder.
+
+The primary advantage of this bundled version is that it combines the main script with other large dependencies like `axios` and `cheerio` into a single, optimized file, which can slightly improve startup performance.
 
 To create the build, ensure `esbuild` is installed as a dev dependency, then run the following command:
 
     npm run build
-This will generate an optimized `scrapeBlogPost.js` file in the `dist` directory.
+This will generate an optimized `scrapeBlogPost.js` file in the `dist` directory that does not include the `yargs` package.
 
 #### Using a Command to Run the Bundled Version
 
