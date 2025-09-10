@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node build.js",
+    "build:webpack": "webpack --config webpack.config.js",
     "clean": "rm -rf dist"
   },
   "keywords": [],
@@ -17,6 +18,8 @@
     "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "esbuild": "^0.23.0"
+    "esbuild": "^0.23.0",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1"
   }
 }
