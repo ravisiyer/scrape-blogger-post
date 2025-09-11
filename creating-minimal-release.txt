@@ -1,0 +1,18 @@
+Steps to create a minimal release:
+1. Create an esbuild minified and bundled scrapeBlogPost.js (without yargs) in dist directory at project
+   root level by running: npm run build. 
+2. In minimal-release directory, create a final-dist directory.
+3. Copy the above minified and bundled scrapeBlogPost.js (without yargs) from dist directory into 
+   minimal-release/final-dist directory. 
+4. Copy node_modules from only-yargs directory to minimal-release/final-dist directory. Note that
+   only-yargs contents were created by running: npm install yargs in an empty directory outside the
+   project directory and sub-directories.
+5. Zip the final-dist directory and name the zip as: scrape-blog-post-minimal-release.zip
+6. Delete the final-dist directory in minimal-release directory as it is not needed now.
+7. The minimal-release directory should already have Readme.txt related to this minimal-release.
+
+Contents of minimal-release directory after minimal release has been created by following above steps:
+a) scrape-blog-post-minimal-release.zip
+b) Readme.txt
+
+The above contents should be uploaded to GitHub Release page to make a new 'pre-release'.
