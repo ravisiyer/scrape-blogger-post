@@ -32,6 +32,33 @@ This tool is intended for personal use and for scraping content from your own bl
     npm install axios cheerio
     ```
 
+#### Installation
+
+The project provides two methods for installation depending on your needs: a robust setup and a minimal, quick-and-hacky release. The choice of which installation to use is yours and should be based on your needs.
+
+**1. Regular, Robust Installation**
+
+For a complete and stable setup, we recommend installing all project dependencies using npm. This method ensures all packages are correctly installed for your system.
+
+1.  Clone the repository from GitHub.
+2.  Navigate to the project directory in your terminal.
+3.  Run the following command to install all dependencies:
+
+    ```
+    npm install
+    ```
+This method will result in a larger disk usage of around 22.9 MB but is the recommended approach for a robust setup.
+
+**2. Quick-and-Hacky Minimal Installation**
+
+This option provides a minimal footprint for users who only want to run the script with a quick setup. It includes a bundled version of the script with some external dependencies pre-installed.
+
+1.  Download the latest minimal release from the [GitHub releases page](https://github.com/ravisiyer/scrape-blogger-post/releases)
+2.  Unzip the downloaded file.
+3.  Your setup is now complete with the dist directory containing the script.
+
+This installation has a minimal disk usage footprint of around 2.3 MB. 
+
 #### Usage
 
 The script takes one required argument (`url`) and a set of options (`--format`, `--output`).
@@ -116,9 +143,9 @@ For other operating systems, you can create a similar shell script to achieve th
 
 The script seems to work with Blogger pages as well, but it has only been tested with one small blog page.
 
-#### Author
+#### Author and Background
 
-This script was developed by Ravi S. Iyer with assistance from Gemini.
+This script was developed by Ravi S. Iyer with assistance from Gemini. Details about the development process and issues faced can be found, mixed with other more general topics, in [my blog post](https://raviswdev.blogspot.com/2025/09/yargs-npm-package-does-not-work-well.html) and some other posts linked in it.
 
 #### License
 
